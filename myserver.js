@@ -12,6 +12,7 @@ app.get("/api/hello", (req, res) => {
 });
 
 app.post("/api/world", (req, res) => {
+  console.log("World called");
   console.log(req.body);
   res.send("You sent:" + req.body.post);
 });
