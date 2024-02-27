@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master # or the name of your main branch
+      - feature/add-test-coverage # or the name of your feature branch
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
