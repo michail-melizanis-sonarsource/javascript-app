@@ -4,8 +4,11 @@ on:
   push:
     branches:
       - master # or the name of your main branch
+      - feature/*
   pull_request:
     types: [opened, synchronize, reopened]
+  workflow_run: 
+
 jobs:
   build:
     name: Build
