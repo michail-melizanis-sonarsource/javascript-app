@@ -1,0 +1,40 @@
+{
+    "perspectives": [
+      {
+        "label": "JavaScript App Architecture",
+        "description": "Architecture of the JavaScript App project",
+        "groups": [
+          {
+            "label": "Client",
+            "patterns": ["client/src/**"],
+            "groups": [
+              { "label": "Main", "patterns": ["client/src/*.js", "client/src/*.css"] },
+              { "label": "Test", "patterns": ["client/src/*.test.js", "client/src/setupTests.js"] }
+            ]
+          },
+          {
+            "label": "Public",
+            "patterns": ["client/public/**"]
+          },
+          {
+            "label": "Server",
+            "patterns": ["myserver.js"]
+          },
+          {
+            "label": "Configuration",
+            "patterns": [
+              "package.json",
+              "package-lock.json",
+              "yarn.lock",
+              "sonar-project.properties",
+              "Jenkinsfile"
+            ]
+          }
+        ],
+        "constraints": [
+          { "from": ["Client/Main"], "to": ["Client/Test"] },
+          { "from": ["Client"], "to": ["Server"] }
+        ]
+      }
+    ]
+  }
