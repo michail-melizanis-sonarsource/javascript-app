@@ -1,25 +1,68 @@
 {
     "perspectives": [
       {
-        "label": "JavaScript App Architecture",
-        "description": "Architecture of the JavaScript App project",
+        "label": "Modules",
+        "description": "Top-level modules: Server, Client",
         "groups": [
-          {
-            "label": "Client",
-            "patterns": ["client/src/**"],
-            "groups": [
-              { "label": "Main", "patterns": ["client/src/*.js", "client/src/*.css"] },
-              { "label": "Test", "patterns": ["client/src/*.test.js", "client/src/setupTests.js"] }
-            ]
-          },
-          {
-            "label": "Public",
-            "patterns": ["client/public/**"]
-          },
           {
             "label": "Server",
             "patterns": ["myserver.js"]
           },
+          {
+            "label": "Client",
+            "patterns": ["client/**"]
+          }
+        ]
+      },
+      {
+        "label": "Client Layers",
+        "description": "Structure of React app",
+        "groups": [
+          {
+            "label": "Public Assets",
+            "patterns": ["client/public/**"]
+          },
+          {
+            "label": "React App",
+            "patterns": ["client/src/**"],
+            "groups": [
+              {
+                "label": "Entry Point",
+                "patterns": [
+                  "client/src/index.js",
+                  "client/src/index.css"
+                ]
+              },
+              {
+                "label": "UI Shell",
+                "patterns": [
+                  "client/src/App.js",
+                  "client/src/App.css"
+                ]
+              },
+              {
+                "label": "Tests",
+                "patterns": [
+                  "client/src/App.test.js",
+                  "client/src/setupTests.js"
+                ]
+              },
+              {
+                "label": "Monitoring",
+                "patterns": ["client/src/reportWebVitals.js"]
+              },
+              {
+                "label": "Assets",
+                "patterns": ["client/src/logo.svg"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Project Structure",
+        "description": "Code and Configuration",
+        "groups": [
           {
             "label": "Configuration",
             "patterns": [
@@ -29,12 +72,41 @@
               "sonar-project.properties",
               "Jenkinsfile"
             ]
+          },
+          {
+            "label": "Docs",
+            "patterns": ["README.md", "client/README.md"]
           }
-        ],
-        "constraints": [
-          { "from": ["Client/Main"], "to": ["Client/Test"] },
-          { "from": ["Client"], "to": ["Server"] }
         ]
+      }
+    ],
+    "constraints": [
+      {
+        "from": ["client/public/**"],
+        "to": ["client/src/**"],
+        "message": "Static assets should not directly depend on source code."
+      },
+      {
+        "from": ["client/**"],
+        "to": ["myserver.js"],
+        "message": "Frontend should not depend on backend implementation."
+      },
+      {
+        "from": ["myserver.js"],
+        "to": ["client/**"],
+        "relation": "exclusive-allow",
+        "message": "Server can use client assets for static file serving only."
+      },
+      {
+        "from": ["*/UI Shell"],
+        "to": ["*/Tests"],
+        "message": "App logic should not depend on test files."
+      },
+      {
+        "from": ["*/Entry Point"],
+        "to": ["*/Tests"],
+        "message": "Main entry point should stay clean from test logic."
       }
     ]
   }
+  
